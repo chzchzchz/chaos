@@ -1,6 +1,6 @@
 # Chaos Attractor Generator
 
-This makes pretty background images. I wrote the original version around 2006. I wrote this version around 2008.
+This makes pretty background images. First version was in 2006. It's undergone some rewrites since then.
 
 ## Theory
 
