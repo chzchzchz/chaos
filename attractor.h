@@ -6,7 +6,7 @@
 #include "xfm.h"
 #include "hitmap.h"
 
-#define VECTOR_LEN	6
+#define MAP_DEGREE	3
 #define SEARCH_DIM_X	100
 #define SEARCH_DIM_Y	100
 #define SEARCH_VMIN	-2.0

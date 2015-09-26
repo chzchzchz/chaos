@@ -31,7 +31,6 @@ void HitMap::init_img(void)
 	}
 }
 
-#include <iostream>
 void HitMap::inc(double x, double y)
 {
 	unsigned x_img = (unsigned int)((x + hm_xfm.xlateX) * hm_xfm.scaleX);
@@ -52,6 +51,5 @@ unsigned HitMap::get_fill_count(void) const
 		for(unsigned x_idx = 0; x_idx < dimx; x_idx++)
 			if (img[y_idx][x_idx])
 				ret++;
-	std::cerr << "FILLS: " << ret << '\n';
 	return ret;
 }

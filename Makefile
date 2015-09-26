@@ -1,4 +1,3 @@
-.PHONY: chaos
 chaos: chaos_bg.o attractor.o hitmap.o
 	g++ -O3 $^ -ljpeg -o $@
 

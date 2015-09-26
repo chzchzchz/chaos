@@ -1,9 +1,18 @@
 #include <stdlib.h>
+#include <math.h>
 #include "attractor.h"
 
 static double eval(double x, double y, const std::vector<double>& v)
 {
-	return v[0] + v[1]*x + v[2]*y + v[3]*x*x + v[4]*x*y + v[5]*y*y;
+	double ret = 0.0;
+	for (unsigned x_deg = 0; x_deg <= MAP_DEGREE; x_deg++) {
+		for (unsigned y_deg = 0; y_deg <= x_deg; y_deg++) {
+			ret += v[x_deg * MAP_DEGREE + y_deg]
+				* pow(x, x_deg - y_deg)
+				* pow(y, y_deg);
+		}
+	}
+	return ret;
 }
 
 #define maxmin(z)				\
@@ -49,13 +58,16 @@ bool Attractor::try_vec_bounds(unsigned iters)
 	x_min = x_max = x;
 	y_min = y_max = y;
 	for (i = 0; i < iters; i++) {
-		double x_new, y_new;
-		x_new = eval(x, y, a);
-		y_new = eval(x, y, b);
+		double	x_new = eval(x, y, a),
+			y_new = eval(x, y, b);
 		maxmin(x);
 		maxmin(y);
 		x = x_new;
 		y = y_new;
+
+		// test for NaN's
+		if (x != x || y != y)
+			return false;
 	}
 
 	if ((x_max - x_max) == x_max || (y_max - y_max) == y_max || 
@@ -79,13 +91,10 @@ bool Attractor::try_vec_bounds(unsigned iters)
 
 static void gen_vec(std::vector<double>& v, double min, double max)
 {
-	v.resize(VECTOR_LEN);
+	v.resize((MAP_DEGREE * (MAP_DEGREE + 1)) / 2);
 	for (unsigned i = 0; i < v.size(); i++) {
-		double	rval;
-		rval = (double)rand() / (double)RAND_MAX;
-		rval *= (max - min);
-		rval += min;
-		v[i] = rval;
+		double	rval = (double)rand() / (double)RAND_MAX;
+		v[i] = (rval * (max - min)) + min;
 	}
 }
 
